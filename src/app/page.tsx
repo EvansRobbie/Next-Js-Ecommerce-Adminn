@@ -1,4 +1,5 @@
 "use client"
+import Nav from "@/components/Nav"
 import { useSession, signOut } from "next-auth/react"
 import { useRouter } from "next/navigation"
 
@@ -12,9 +13,8 @@ export default function Home() {
     router.push('/login')
   }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      Helloos
-      <button onClick={()=> signOut()}>Logout</button>
+    <main className="flex min-h-screen">
+      <Nav/>
     </main>
   )
 }
