@@ -13,7 +13,7 @@ const Login = () => {
   }
   return (
     <div className='flex w-full h-screen items-center justify-center'>
-        <button onClick={()=>signIn("google")} className='py-2 px-4 bg-orange-500 rounded-md active:scale-105 hover:bg-orange-700 translation'>Login With Google</button>
+        <button onClick={()=>signIn("google")} className='button '>Login With Google</button>
     </div>
   )
 }

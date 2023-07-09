@@ -12,7 +12,19 @@
 html,body{
   @apply bg-slate-950 text-slate-200
 }
+h2{
+  @apply text-orange-500/90 mb-2 text-lg
+}
+input, textarea{
+  @apply border border-slate-200/30 mb-4 focus:border-orange-500/30 translation w-full shadow shadow-slate-950/10 bg-slate-200/10 outline-none py-1.5 px-4 rounded-lg
+}
+label{
+  @apply mb-1 text-gray-300/50
+}
 .translation {
   @apply transition-all ease-in duration-300
+}
+.button {
+  @apply py-2 px-4 bg-orange-500 rounded-md active:scale-105 hover:bg-orange-700 translation
 }
 }
