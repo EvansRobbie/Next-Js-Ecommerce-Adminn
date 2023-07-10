@@ -7,14 +7,15 @@ const newProduct = () => {
     const [price, setPrice] = useState<number>(0)
     const onSubmit = (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        // const target = e.target as HTMLFormElement
+        const data = {title, desc, price}
+        const target = e.target as HTMLFormElement
         // const title = (target[0] as HTMLInputElement).value
         // const desc = (target[1] as HTMLInputElement).value
         // const price = (target[2] as HTMLInputElement).value
 
-        // target.reset()
+        target.reset()
 
-        console.log(title, desc, price)
+        console.log(data)
 
     }
   return (
