@@ -1,23 +1,32 @@
 "use client"
+import axios from 'axios'
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 
 const newProduct = () => {
     const [title, setTitle] = useState<string>("")
     const [desc, setDesc] = useState<string>("")
     const [price, setPrice] = useState<number>(0)
-    const onSubmit = (e:FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const data = {title, desc, price}
         const target = e.target as HTMLFormElement
-        // const title = (target[0] as HTMLInputElement).value
-        // const desc = (target[1] as HTMLInputElement).value
-        // const price = (target[2] as HTMLInputElement).value
-
-        target.reset()
-
-        console.log(data)
-
+        
+        const data = {
+            title,
+            desc,
+            price,
+          };
+          
+          try {
+          await axios.post('/api/products', JSON.stringify(data)
+            )
+          target.reset()
+        } catch (error) {
+          
+        }
     }
+        // console.log(data)
+
+    
   return (
     <form onSubmit={onSubmit} className='flex flex-col  max-w-3xl mx-auto'>
         <h2 className=''>New Product</h2>
