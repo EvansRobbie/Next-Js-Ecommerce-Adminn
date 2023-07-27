@@ -1,11 +1,13 @@
 "use client"
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 
 const newProduct = () => {
     const [title, setTitle] = useState<string>("")
     const [desc, setDesc] = useState<string>("")
     const [price, setPrice] = useState<number>(0)
+    const router = useRouter()
     const onSubmit = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const target = e.target as HTMLFormElement
@@ -18,8 +20,10 @@ const newProduct = () => {
           
           try {
           await axios.post('/api/products', JSON.stringify(data)
+            
             )
           target.reset()
+          router.push('/products')
         } catch (error) {
           
         }

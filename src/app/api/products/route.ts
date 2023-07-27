@@ -1,12 +1,29 @@
-import clientPromise from "@/utils/db"
+import Product from "@/models/Products";
+import { connect } from "@/utils/moongose";
 import { NextResponse } from "next/server"
 
 export const POST = async (req: Request, res: Response) => {
     const {title, desc, price}= await req.json()
-    console.log({title, desc, price})
-    // if (method !== "POST") {
-    //   return;
-    // }
-    return NextResponse.json({title, desc, price})
-    // Your code here
+    await connect()
+    try{
+      const product = await Product.create({title, desc, price})
+      return NextResponse.json(product, {status:201})
+    }catch(e){
+      return new NextResponse('Database Error', {status:500})
+    }
   };
+
+export const GET = async (req: Request) => {
+
+  await connect()
+  try{
+    const post = await Product.find()
+    // console.log(post)
+    return NextResponse.json(post, {status:200})
+  }catch(e){
+    console.error(e)
+    return new NextResponse('Database Error', {status:500})
+  }
+  
+  
+}
