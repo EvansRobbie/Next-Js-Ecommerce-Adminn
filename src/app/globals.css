@@ -21,10 +21,20 @@ input, textarea{
 label{
   @apply mb-1 text-gray-300/50
 }
+table {
+  @apply w-full my-4
+}
+thead{
+  @apply bg-slate-300 text-slate-900 font-semibold
+}
+tr, td {
+  @apply border p-1 border-gray-500
+}
 .translation {
   @apply transition-all ease-in duration-300
 }
 .button {
   @apply py-2 px-4 bg-orange-500 rounded-md active:scale-105 hover:bg-orange-700 translation
 }
+
 }

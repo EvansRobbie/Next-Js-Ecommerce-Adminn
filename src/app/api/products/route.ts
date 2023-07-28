@@ -17,9 +17,9 @@ export const GET = async (req: Request) => {
 
   await connect()
   try{
-    const post = await Product.find()
+    const products = await Product.find()
     // console.log(post)
-    return NextResponse.json(post, {status:200})
+    return NextResponse.json(products, {status:200})
   }catch(e){
     console.error(e)
     return new NextResponse('Database Error', {status:500})
@@ -27,3 +27,4 @@ export const GET = async (req: Request) => {
   
   
 }
+
