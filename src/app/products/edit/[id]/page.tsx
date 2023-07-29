@@ -4,13 +4,13 @@ import { notFound } from 'next/navigation'
 import React from 'react'
 
 const getProductData = async (id:string) =>{
-    const res = await axios.get(`http://localhost:3000/api/products/${id}`)
+    const res = await fetch(`http://localhost:3000/api/products/${id}`, {cache:'no-store'})
 
-    if (!res){
+    if (!res.ok){
         return notFound()
     }
 
-    return res.data
+    return res.json()
 }
 
 const product = async ({params:{id}}:{params:{id:string}}) => {
