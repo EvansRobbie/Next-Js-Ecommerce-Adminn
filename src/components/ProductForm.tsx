@@ -4,6 +4,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import Spinner from "./Spinner";
+import { ReactSortable } from "react-sortablejs";
+
+interface ImageFile extends File {
+  id: number; 
+}
+
 
 const ProductForm = ({
   _id:id,
@@ -76,6 +82,9 @@ const ProductForm = ({
     }
   }
   // console.log(image)
+  const updateImagesOrder = (image:any) =>{
+    setImage(image)
+  }
   return (
     <form onSubmit={onSubmit} className="flex flex-col  max-w-3xl mx-auto">
       <h2 className="">{id ? "Edit" : "New"} Product</h2>
@@ -90,15 +99,16 @@ const ProductForm = ({
       />
       <label htmlFor="photo">Image</label>
       <div className="flex  gap-1  items-center">
-
-          <div className="flex gap-2">
+            <ReactSortable list={image as (ImageFile[])} setList={updateImagesOrder} className="flex gap-2">
+         
           {!!image.length && image.map((link, idx)=>(
             <div key={idx} className="relative h-24 w-28 mb-4">
                 <Image fill={true} className="max-h-full object-cover rounded-xl" src={`${link}`} alt={`/product/${link}`}/>
             </div>
           ))}
 
-          </div>
+       
+          </ReactSortable>
           {isUpLoading && (
             <div className="h-24 flex items-center">
                 <Spinner/>
