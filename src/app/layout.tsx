@@ -2,7 +2,7 @@ import AuthProvider from '@/components/sessionProvider/AuthProvider'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import Nav from "@/components/Nav"
-import { useRouter } from 'next/navigation'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 const inter = Inter({ subsets: ['latin'] })

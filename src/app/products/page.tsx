@@ -1,5 +1,7 @@
 "use client"
+import { fetcher } from '@/components/Fetcher'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import React from 'react'
 import useSWR from 'swr'
 
@@ -11,8 +13,11 @@ interface productProp{
 }
 
 const products = () => {
-  const fetcher = (...args:any) => fetch(args).then((res) => res.json())
   const {data, error, isLoading} = useSWR('/api/products', fetcher)
+
+  if (error){
+    return notFound
+  }
   // console.log(data)
 
   return (
