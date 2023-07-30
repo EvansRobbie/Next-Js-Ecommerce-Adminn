@@ -1,6 +1,5 @@
 import Product from "@/models/Products"
 import { connect } from "@/utils/moongose"
-import { useSearchParams } from "next/navigation"
 import { NextResponse } from "next/server"
 
 export const GET = async (req:Request, {params:{id}}:{params:{id:String}}) =>{
@@ -16,12 +15,11 @@ export const GET = async (req:Request, {params:{id}}:{params:{id:String}}) =>{
 }
 
 export const PUT =async (req:Request,{params:{id}}:{params:{id:String}} ) => {
-    console.log(id)
     await connect()
-    const {title, desc, price} =  await req.json()
+    const {title, desc, price, image} =  await req.json()
         // console.log(id)
     try{
-        const product = await Product.updateOne({_id:id},{ title, desc, price}) 
+        const product = await Product.updateOne({_id:id},{ title, desc, price, image}) 
         return NextResponse.json(product, {status:200})
     }catch(e){
         return new NextResponse('Failed to update product', {status:500})
