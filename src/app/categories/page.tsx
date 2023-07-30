@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation'
 import React, { FormEvent, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import useSWR from 'swr'
+import { withSwal } from 'react-sweetalert2';
 
 interface categoryProp{
     _id:string
@@ -20,7 +21,7 @@ interface editProp {
     _id:string
 }
 
-const categories = () => {
+export default withSwal(({swal}:any, ref:any) => {
     const [category, setCategory] = useState<string>('')
     const [parentCategory, setParentCategory] = useState<string | undefined>('')
     const [editCategory, setEditCategory] = useState<editProp | any>("")
@@ -34,6 +35,29 @@ const categories = () => {
         setEditCategory(cat)
         setCategory(cat.category)
         setParentCategory(cat.parentCategory?._id)
+    }
+
+    const deleteCategory = (cat:categoryProp) =>{
+        const {_id:id} = cat
+        swal.fire({
+            title: 'Are You sure?',
+            text: `Do you want to delete ${cat.category}?`,
+            showCancelButton: true,
+            cancelButtonText: "Cancel",
+            confirmButtonText: 'Yes, Delete',
+            confirmButtonColor: '#d55',
+            reverseButtons:true,
+        }).then(async ({isConfirmed}:{isConfirmed:boolean}) => {
+            if (isConfirmed){
+                await axios.delete(`/api/categories/${id}`)
+                mutate()
+                toast.success('Category Deleted')
+            }
+        }).catch((error:any) => {
+            console.log(error)
+           toast.error('Failed to delete Category')
+        });
+
     }
     const onSubmit = async (e:FormEvent<HTMLFormElement>) =>{
         e.preventDefault()
@@ -101,7 +125,7 @@ const categories = () => {
                     <span>Edit</span>
                     </button>
 
-                    <button className='bg-red-500/80 py-1 px-2.5 gap-1 inline-flex rounded-md'>
+                    <button onClick={() =>deleteCategory(cat)} className='bg-red-500/80 py-1 px-2.5 gap-1 inline-flex rounded-md'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                       </svg>
@@ -122,6 +146,4 @@ const categories = () => {
 
     </div>
   )
-}
-
-export default categories
+})

@@ -27,7 +27,7 @@ export const GET = async () =>{
 
 export const PUT = async (req:Request) =>{
     const {_id, category, parentCategory} = await req.json()
-    console.log(_id)
+    // console.log(_id)
     try{
         await connect()
         const categories = await Category.updateOne({_id}, {category, parentCategory})
@@ -37,3 +37,8 @@ export const PUT = async (req:Request) =>{
         return new NextResponse('Database Error', {status:500})
     }
 }
+
+// export const DELETE = async({params:{id}}: {params:{id:string}}) =>{
+//     return new NextResponse('Ok')
+
+// }
