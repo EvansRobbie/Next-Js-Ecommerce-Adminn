@@ -15,6 +15,10 @@ interface categoryProp {
     _id: string;
     category: string;
   };
+  properties?:{
+    name:string
+    values:string
+  }[] | any
 }
 interface editProp {
   _id: string;
@@ -37,6 +41,7 @@ export default withSwal(({ swal }: any, ref: any) => {
   const editCategoryName = (cat: categoryProp) => {
     setEditCategory(cat);
     setCategory(cat.category);
+    setProperties(cat.properties?.map(({name, values}:{name:string, values:string[]}) =>({name:name, value:values.join(",")})))
     setParentCategory(cat.parentCategory?._id || null);
   };
 
@@ -89,6 +94,7 @@ export default withSwal(({ swal }: any, ref: any) => {
       }
       setCategory("");
       setParentCategory("");
+      setProperties([])
       mutate();
     } catch (error) {
       console.log("Failed to save category", error);
@@ -110,7 +116,6 @@ export default withSwal(({ swal }: any, ref: any) => {
   const handlePropertyName = (
     index: number,
     newName: string,
-    property: any
   ) => {
     // console.log({newName, property, index})
     setProperties((prev) => {
@@ -122,7 +127,6 @@ export default withSwal(({ swal }: any, ref: any) => {
   const handlePropertyValue = (
     index: number,
     newValue: string,
-    property: any
   ) => {
     // console.log({newName, property, index})
     setProperties((prev) => {
@@ -187,7 +191,7 @@ export default withSwal(({ swal }: any, ref: any) => {
                       <div key={index} className=" flex items-center gap-2">
                         <input
                           onChange={(e) =>
-                            handlePropertyName(index, e.target.value, property)
+                            handlePropertyName(index, e.target.value)
                           }
                           value={property.name}
                           type="text"
@@ -195,7 +199,7 @@ export default withSwal(({ swal }: any, ref: any) => {
                         />
                         <input
                           onChange={(e) =>
-                            handlePropertyValue(index, e.target.value, property)
+                            handlePropertyValue(index, e.target.value)
                           }
                           value={property.value}
                           type="text"
@@ -219,6 +223,7 @@ export default withSwal(({ swal }: any, ref: any) => {
                       setEditCategory(null);
                       setCategory("");
                       setParentCategory(null);
+                      setProperties([])
                     }}
                     className="button max-w-max bg-slate-200/10 hover:bg-slate-200/30"
                     type="button"
