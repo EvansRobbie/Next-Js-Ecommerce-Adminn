@@ -3,6 +3,7 @@ import { fetcher } from '@/components/Fetcher'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
+import { ToastContainer } from 'react-toastify'
 import useSWR from 'swr'
 
 interface productProp{
@@ -60,6 +61,7 @@ const products = () => {
         </table>
         )
       }
+      <ToastContainer/>
     </div>
   )
 }

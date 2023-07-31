@@ -6,6 +6,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import Spinner from "./Spinner";
 import { ReactSortable } from "react-sortablejs";
 import { fetcher } from "./Fetcher";
+import {  toast } from "react-toastify";
 import useSWR from 'swr'
 
 interface ImageFile extends File {
@@ -23,23 +24,26 @@ interface categoryProp {
 const ProductForm = ({
   _id: id,
   title: productTitle,
+  category:productCategory,
   desc: productDesc,
   price: productPrice,
   image: productImage,
 }: {
   _id?: string;
   title?: string;
+  category?:string
   desc?: string;
   price?: number;
   image?: File[];
 }) => {
   // console.log(_id)
   const [title, setTitle] = useState<string>(productTitle || "");
+  const [category, setCategory] = useState<string>(productCategory || '')
   const [image, setImage] = useState<File[]>(productImage || []);
   const [desc, setDesc] = useState<string>(productDesc || "");
   const [price, setPrice] = useState<number>(productPrice || 0);
   const [isUpLoading, setIsUploading] = useState<boolean>(false);
-  const { data:categories, error, isLoading } = useSWR("/api/categories", fetcher);
+  const { data:categories, error, isLoading, mutate } = useSWR("/api/categories", fetcher);
   const router = useRouter();
 
   if (error){
@@ -54,22 +58,24 @@ const ProductForm = ({
       desc,
       price,
       image,
+      category,
     };
-    if (id) {
-      try {
-        await axios.put(`/api/products/${id}`, JSON.stringify({ ...data }));
-        router.push("/products");
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      try {
-        await axios.post("/api/products", JSON.stringify(data));
-        target.reset();
-        router.push("/products");
-      } catch (error) {
-        console.log(error);
-      }
+    try{
+
+      if (id) {
+          await axios.put(`/api/products/${id}`, JSON.stringify({ ...data }));
+          router.push("/products");
+          mutate()
+          toast.success('Product details updated')
+      } else {
+          await axios.post("/api/products", JSON.stringify(data));
+          target.reset();
+          router.push("/products");
+          toast.success('Product created successfully')
+       
+    }
+    }catch (error) {
+      console.log(error);
     }
   };
   const uploadImages = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -122,7 +128,7 @@ const ProductForm = ({
               required
             />
             <label htmlFor="category">Category</label>
-            <select className="text-slate-900 bg-slate-200 font-semibold" id="category">
+            <select value={category} onChange={(e)=>setCategory(e.target.value)} className="text-slate-900 bg-slate-200 font-semibold" id="category">
               <option value="">Uncategorized</option>
                 {categories.map(({_id, category}:categoryProp) =>(
                     <option key={_id} value={_id}>{category}</option>
@@ -204,8 +210,10 @@ const ProductForm = ({
             <div className="flex justify-end">
               <button className="button max-w-max">Save Product</button>
             </div>
+            
           </>
       )}
+      
     </form>
   );
 };

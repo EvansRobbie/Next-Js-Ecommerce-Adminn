@@ -2,7 +2,6 @@
 import { fetcher } from "@/components/Fetcher";
 import Spinner from "@/components/Spinner";
 import axios from "axios";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import React, { FormEvent, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
