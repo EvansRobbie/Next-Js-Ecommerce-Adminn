@@ -19,11 +19,15 @@ interface categoryProp {
 interface editProp {
   _id: string;
 }
-
+interface propertyProp {
+  name: string;
+  value: string;
+}
 export default withSwal(({ swal }: any, ref: any) => {
   const [category, setCategory] = useState<string>("");
   const [parentCategory, setParentCategory] = useState<string | null>(null);
   const [editCategory, setEditCategory] = useState<editProp | any>("");
+  const [properties, setProperties] = useState<propertyProp[]>([]);
   const { data, error, isLoading, mutate } = useSWR("/api/categories", fetcher);
 
   if (error) {
@@ -62,7 +66,7 @@ export default withSwal(({ swal }: any, ref: any) => {
   };
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = { category, parentCategory:parentCategory || null };
+    const data = { category, parentCategory: parentCategory || null };
     try {
       if (editCategory) {
         // console.log(editCategory)
@@ -84,8 +88,37 @@ export default withSwal(({ swal }: any, ref: any) => {
       toast.error("Failed to save category");
     }
   };
+  const addProperty = () => {
+    setProperties((prev) => {
+      return [...prev, { name: "", value: "" }];
+    });
+  };
 
-  // console.log(editCategory)
+  const handlePropertyName = (
+    index: number,
+    newName: string,
+    property: any
+  ) => {
+    // console.log({newName, property, index})
+    setProperties((prev) => {
+      const properties = [...prev];
+      properties[index].name = newName;
+      return properties;
+    });
+  };
+  const handlePropertyValue = (
+    index: number,
+    newValue: string,
+    property: any
+  ) => {
+    // console.log({newName, property, index})
+    setProperties((prev) => {
+      const properties = [...prev];
+      properties[index].value = newValue;
+      return properties;
+    });
+  };
+  //   console.log(properties)
   return (
     <div className=" max-w-3xl mx-auto">
       {isLoading ? (
@@ -94,36 +127,74 @@ export default withSwal(({ swal }: any, ref: any) => {
         </div>
       ) : (
         <>
-          <form onSubmit={onSubmit} className="flex flex-col ">
-            <h2>Categories</h2>
-            <label htmlFor="category">
-              {editCategory
-                ? `Edit category ${editCategory.category}`
-                : "Create New Category Name"}
-            </label>
-            <div className="flex gap-1 items-center py-2">
-              <input
-                type="text"
-                id="category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                placeholder="Category Name"
-              />
-              <select
-                className="bg-slate-200 font-semibold text-slate-900 "
-                value={parentCategory || ''}
-                onChange={(e) => setParentCategory(e.target.value)}
-              >
-                <option className="" value="">
-                  No Parent Category
-                </option>
-                {data.map(({ category, _id }: categoryProp) => (
-                  <option className="!bg-slate-200/10 " key={_id} value={_id}>
-                    {category}
+          <form onSubmit={onSubmit} className=" ">
+            <div className="flex flex-col">
+              <h2>Categories</h2>
+              <label htmlFor="category">
+                {editCategory
+                  ? `Edit category ${editCategory.category}`
+                  : "Create New Category Name"}
+              </label>
+              <div className="flex gap-1 items-center py-2">
+                <input
+                  type="text"
+                  id="category"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  placeholder="Category Name"
+                />
+                <select
+                  className="bg-slate-200 font-semibold text-slate-900 "
+                  value={parentCategory || ""}
+                  onChange={(e) => setParentCategory(e.target.value)}
+                >
+                  <option className="" value="">
+                    No Parent Category
                   </option>
-                ))}
-              </select>
-              <button className="button max-w-max -mt-3.5 ">Save</button>
+                  {data.map(({ category, _id }: categoryProp) => (
+                    <option className="!bg-slate-200/10 " key={_id} value={_id}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex flex-col gap-2 pb-4">
+                <label htmlFor="properties">Properties</label>
+                <button
+                  onClick={addProperty}
+                  type="button"
+                  className="button text-sm max-w-max"
+                >
+                  Add new Property
+                </button>
+                {!!properties.length &&
+                  properties.map((property, index) => {
+                    // console.log(property.name)
+                    return (
+                      <div key={index} className=" flex gap-2">
+                        <input
+                          onChange={(e) =>
+                            handlePropertyName(index, e.target.value, property)
+                          }
+                          value={property.name}
+                          type="text"
+                          placeholder="property name e.g. color"
+                        />
+                        <input
+                          onChange={(e) =>
+                            handlePropertyValue(index, e.target.value, property)
+                          }
+                          value={property.value}
+                          type="text"
+                          placeholder="values, comma separated"
+                        />
+                      </div>
+                    );
+                  })}
+              </div>
+              <button type="submit" className="button max-w-max ">
+                Save
+              </button>
             </div>
             <ToastContainer />
           </form>

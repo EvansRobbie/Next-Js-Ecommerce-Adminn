@@ -1,5 +1,6 @@
 "use client"
 import { fetcher } from '@/components/Fetcher'
+import Spinner from '@/components/Spinner'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
@@ -22,10 +23,12 @@ const products = () => {
   // console.log(data)
 
   return (
-    <div>
-      <Link href={'/products/new'} className='button'>Add new product</Link>
+    <div className='flex flex-col max-w-3xl mx-auto'>
+      <Link href={'/products/new'} className='button max-w-max'>Add new product</Link>
       {
-        isLoading ? 'Loading' : (
+        isLoading ? (<div className="flex w-full justify-center h-[50vh] items-center">
+        <Spinner />
+      </div>) : (
 
         <table>
           <thead>
