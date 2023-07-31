@@ -2,7 +2,8 @@ import {model, models, Schema, Types} from "mongoose"
 
 const CategorySchema = new Schema({
     category:{type:String, require:true, unique:true},
-    parentCategory : {type: Types.ObjectId, ref: "Category"}
+    parentCategory : {type: Types.ObjectId, ref: "Category"},
+    properties:[{type:Object}]
 })
 
 const Category = models.Category || model("Category", CategorySchema)

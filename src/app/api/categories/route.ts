@@ -3,10 +3,10 @@ import { connect } from "@/utils/moongose"
 import { NextResponse } from "next/server"
 
 export const POST = async (req:Request) =>{
-    const {category, parentCategory} = await req.json()
+    const {category, parentCategory, properties} = await req.json()
     try{
         await connect()
-        const categories = await Category.create({category, parentCategory})
+        const categories = await Category.create({category, parentCategory, properties})
         return NextResponse.json(categories, {status:201})
     }catch(e){
         console.log(e)
@@ -26,11 +26,11 @@ export const GET = async () =>{
 }
 
 export const PUT = async (req:Request) =>{
-    const {_id, category, parentCategory} = await req.json()
+    const {_id, category, parentCategory, properties} = await req.json()
     // console.log(_id)
     try{
         await connect()
-        const categories = await Category.updateOne({_id}, {category, parentCategory})
+        const categories = await Category.updateOne({_id}, {category, parentCategory, properties})
         return NextResponse.json(categories, {status:201})
     }catch(e){
         console.log(e)

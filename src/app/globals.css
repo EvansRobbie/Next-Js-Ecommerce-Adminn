@@ -16,7 +16,7 @@ h2{
   @apply text-orange-500/90 mb-2 text-lg
 }
 input, textarea, select{
-  @apply border border-slate-200/30 mb-4 focus:border-orange-500/30 translation w-full shadow shadow-slate-950/10 bg-slate-200/10 outline-none py-1.5 px-4 rounded-lg
+  @apply border border-slate-200/30  focus:border-orange-500/30 translation w-full shadow shadow-slate-950/10 bg-slate-200/10 outline-none py-1.5 px-4 rounded-lg
 }
 label{
   @apply mb-1 text-gray-300/50
