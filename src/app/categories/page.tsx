@@ -15,10 +15,12 @@ interface categoryProp {
     _id: string;
     category: string;
   };
-  properties?:{
-    name:string
-    values:string
-  }[] | any
+  properties?:
+    | {
+        name: string;
+        values: string;
+      }[]
+    | any;
 }
 interface editProp {
   _id: string;
@@ -41,7 +43,14 @@ export default withSwal(({ swal }: any, ref: any) => {
   const editCategoryName = (cat: categoryProp) => {
     setEditCategory(cat);
     setCategory(cat.category);
-    setProperties(cat.properties?.map(({name, values}:{name:string, values:string[]}) =>({name:name, value:values.join(",")})))
+    setProperties(
+      cat.properties?.map(
+        ({ name, values }: { name: string; values: string[] }) => ({
+          name: name,
+          value: values.join(","),
+        })
+      )
+    );
     setParentCategory(cat.parentCategory?._id || null);
   };
 
@@ -94,7 +103,7 @@ export default withSwal(({ swal }: any, ref: any) => {
       }
       setCategory("");
       setParentCategory("");
-      setProperties([])
+      setProperties([]);
       mutate();
     } catch (error) {
       console.log("Failed to save category", error);
@@ -113,10 +122,7 @@ export default withSwal(({ swal }: any, ref: any) => {
       return result;
     });
   };
-  const handlePropertyName = (
-    index: number,
-    newName: string,
-  ) => {
+  const handlePropertyName = (index: number, newName: string) => {
     // console.log({newName, property, index})
     setProperties((prev) => {
       const properties = [...prev];
@@ -124,10 +130,7 @@ export default withSwal(({ swal }: any, ref: any) => {
       return properties;
     });
   };
-  const handlePropertyValue = (
-    index: number,
-    newValue: string,
-  ) => {
+  const handlePropertyValue = (index: number, newValue: string) => {
     // console.log({newName, property, index})
     setProperties((prev) => {
       const properties = [...prev];
@@ -223,7 +226,7 @@ export default withSwal(({ swal }: any, ref: any) => {
                       setEditCategory(null);
                       setCategory("");
                       setParentCategory(null);
-                      setProperties([])
+                      setProperties([]);
                     }}
                     className="button max-w-max bg-slate-200/10 hover:bg-slate-200/30"
                     type="button"

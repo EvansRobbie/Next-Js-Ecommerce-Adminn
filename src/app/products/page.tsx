@@ -38,7 +38,7 @@ const products = () => {
             </tr>
           </thead>
           <tbody>
-            { data.map(({_id, price, title, desc}:productProp) =>(
+            { data.map(({_id,  title}:productProp) =>(
               <tr className='' >
                 <td >{title}</td>
                 <td className=' items-center flex justify-end gap-4'>
