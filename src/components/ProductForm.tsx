@@ -113,12 +113,14 @@ const ProductForm: React.FC<ProductFormProps> = ({
   const propertiesToFill = []
   if (categories && categories.length > 0 && category){
     let catInfo = categories.find(({_id}:any) => _id === category )
-    console.log(catInfo)
+    // console.log(catInfo)
     propertiesToFill.push(...catInfo?.properties)
-    while(catInfo?.parentCategory._id){
-      const parent = categories.find(({_id}:any) => _id === category )
-      console.log(parent)
-      propertiesToFill.push(...parent?.parentCategory.properties)
+    while(catInfo?.parentCategory?._id){
+      const parent = categories.find(({_id}:any) => _id === catInfo?.parentCategory?._id )
+      // console.log(parent.properties)
+      propertiesToFill.push(...parent?.properties)
+      // break;
+      catInfo = parent
     }
   }
   // console.log(propertiesToFill)
@@ -148,12 +150,9 @@ const ProductForm: React.FC<ProductFormProps> = ({
                     <option key={_id} value={_id}>{category}</option>
                 ))}
             </select>
-            {propertiesToFill.map(( p, idx )=>(
-              <div key={idx} className="flex gap-4">
-                <div>{p.name}</div>
-                <div>{p.values.join(',')}</div>
-              </div>
-            ))}
+           {propertiesToFill.length > 0 && propertiesToFill.map((p, idx)=>(
+            <div className="" key={idx}>{p.name}</div>
+           ))}
             <label htmlFor="photo">Image</label>
             <div className="flex  gap-1  items-center">
               <ReactSortable
