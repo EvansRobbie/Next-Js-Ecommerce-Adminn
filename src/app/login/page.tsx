@@ -15,7 +15,7 @@ const Login = () => {
     router.push('/')
   }
   return (
-    <div className='flex w-full h-screen items-center justify-center'>
+    <div className='flex absolute inset-0 bg-slate-900 w-full min-h-screen items-center justify-center'>
         <button onClick={()=>signIn("google")} className='button '>Login With Google</button>
     </div>
   )

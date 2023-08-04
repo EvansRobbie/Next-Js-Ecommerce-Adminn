@@ -1,16 +1,10 @@
 "use client"
-import { useSession, signOut } from "next-auth/react"
+import { useSession} from "next-auth/react"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
 export default function Home() {
   const { data:session, status, } = useSession()
-  // console.log(session?.user?.image)
-  const router =  useRouter()
   if (status === 'loading'){
     return <p>Loading</p>
-  }
-  if (status === 'unauthenticated'){
-    router.push('/login')
   }
   return (
     <main className=" flex justify-between">

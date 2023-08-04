@@ -19,6 +19,7 @@ interface ProductFormProps {
   desc?: string;
   price?: number;
   image?: File[];
+  properties?: {}
 }
 
 interface categoryProp {
@@ -36,17 +37,19 @@ const ProductForm: React.FC<ProductFormProps> = ({
   desc: productDesc,
   price: productPrice,
   image: productImage,
+  properties: assignedProperties
 }): JSX.Element => {
   // console.log(_id)
   const [title, setTitle] = useState<string>(productTitle || "");
   const [category, setCategory] = useState<string>(productCategory || '')
+  const [propInfo, setPropInfo] = useState(assignedProperties || {} as any)
   const [image, setImage] = useState<File[]>(productImage || []);
   const [desc, setDesc] = useState<string>(productDesc || "");
   const [price, setPrice] = useState<number>(productPrice || 0);
   const [isUpLoading, setIsUploading] = useState<boolean>(false);
   const { data:categories, error, isLoading, mutate } = useSWR("/api/categories", fetcher);
   const router = useRouter();
-
+  // console.log(propInfo)
   if (error){
      notFound
   }
@@ -60,6 +63,7 @@ const ProductForm: React.FC<ProductFormProps> = ({
       price,
       image,
       category,
+      propInfo,
     };
     try{
 
@@ -124,6 +128,13 @@ const ProductForm: React.FC<ProductFormProps> = ({
     }
   }
   // console.log(propertiesToFill)
+  const setProductProp = (propName:any, value:any) =>{
+      setPropInfo((prev:any) =>{
+        const newProductInfo = {...prev}
+        newProductInfo[propName] = value
+        return newProductInfo
+      })
+  }
   return (
     
     <form onSubmit={onSubmit} className="flex flex-col gap-1 max-w-3xl mx-auto">
@@ -151,7 +162,14 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 ))}
             </select>
            {propertiesToFill.length > 0 && propertiesToFill.map((p, idx)=>(
-            <div className="" key={idx}>{p.name}</div>
+            <div className="flex gap-4" key={idx}>
+              <div>{p.name}</div>
+              <select  value={propInfo[p.name]} onChange={(e)=>setProductProp(p.name, e.target.value)} className="text-slate-900 bg-slate-200 font-semibold">
+                {p.values.map((v:any) =>(
+                  <option key={p.name} value={v}>{v}</option>
+                ))}
+              </select>
+            </div>
            ))}
             <label htmlFor="photo">Image</label>
             <div className="flex  gap-1  items-center">

@@ -16,10 +16,10 @@ export const GET = async (req:Request, {params:{id}}:{params:{id:String}}) =>{
 
 export const PUT =async (req:Request,{params:{id}}:{params:{id:String}} ) => {
     await connect()
-    const {title, desc, price, image, category} =  await req.json()
+    const {title, desc, price, image, category, propInfo:properties} =  await req.json()
         // console.log(id)
     try{
-        const product = await Product.updateOne({_id:id},{ title, desc, price, image, category}) 
+        const product = await Product.updateOne({_id:id},{ title, desc, price, image, category, properties}) 
         return NextResponse.json(product, {status:200})
     }catch(e){
         return new NextResponse('Failed to update product', {status:500})

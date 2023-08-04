@@ -5,7 +5,8 @@ const ProductSchema = new Schema({
     category:{type:Types.ObjectId, ref:'Categories'},
     desc:{type:String, required:true},
     price:{type:String, required:true},
-    image:{type:[String]}
+    image:{type:[String]},
+    properties:{type:Object}
 })
 
 const Product = models.Product || model("Product", ProductSchema)

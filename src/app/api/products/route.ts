@@ -3,10 +3,10 @@ import { connect } from "@/utils/moongose";
 import { NextResponse } from "next/server"
 
 export const POST = async (req: Request, res: Response) => {
-    const {title, desc, price, image, category}= await req.json()
+    const {title, desc, price, image, category, propInfo:properties}= await req.json()
     await connect()
     try{
-      const product = await Product.create({title, desc, price, image, category})
+      const product = await Product.create({title, desc, price, image, category, properties})
       return NextResponse.json(product, {status:201})
     }catch(e){
       return new NextResponse('Database Error', {status:500})
