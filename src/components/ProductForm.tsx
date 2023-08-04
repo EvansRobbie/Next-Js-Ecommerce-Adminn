@@ -109,6 +109,19 @@ const ProductForm: React.FC<ProductFormProps> = ({
   //   e.preventDefault()
   //   setImage([...image.filter((photo)=> photo !== link)])
   // }
+
+  const propertiesToFill = []
+  if (categories && categories.length > 0 && category){
+    let catInfo = categories.find(({_id}:any) => _id === category )
+    console.log(catInfo)
+    propertiesToFill.push(...catInfo?.properties)
+    while(catInfo?.parentCategory._id){
+      const parent = categories.find(({_id}:any) => _id === category )
+      console.log(parent)
+      propertiesToFill.push(...parent?.parentCategory.properties)
+    }
+  }
+  // console.log(propertiesToFill)
   return (
     
     <form onSubmit={onSubmit} className="flex flex-col gap-1 max-w-3xl mx-auto">
@@ -135,6 +148,12 @@ const ProductForm: React.FC<ProductFormProps> = ({
                     <option key={_id} value={_id}>{category}</option>
                 ))}
             </select>
+            {propertiesToFill.map(( p, idx )=>(
+              <div key={idx} className="flex gap-4">
+                <div>{p.name}</div>
+                <div>{p.values.join(',')}</div>
+              </div>
+            ))}
             <label htmlFor="photo">Image</label>
             <div className="flex  gap-1  items-center">
               <ReactSortable
