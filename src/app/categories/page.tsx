@@ -31,7 +31,7 @@ interface propertyProp {
 }
 
 
-const ProductCategory = ({ swal, ref}:{swal:any, ref:any}) =>{
+const ProductCategory = ({ swal}:{swal:any}) =>{
   const [category, setCategory] = useState<string>("");
   const [parentCategory, setParentCategory] = useState<string | null>(null);
   const [editCategory, setEditCategory] = useState<editProp | any>("");
