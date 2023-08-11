@@ -4,6 +4,8 @@ import { Inter } from 'next/font/google'
 import Nav from "@/components/Nav"
 import 'react-toastify/dist/ReactToastify.css'
 import ProtectedRoute from '@/components/ProtectedRoute'
+import HamburgerButton from '@/components/HamburgerButton'
+import NavContextProvider from '@/context/NavContext'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -23,12 +25,13 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <ProtectedRoute>
-          <div className='flex '>
-
-            <Nav/>
-            <div className="bg-[#1E1E1E] flex-grow py-4 my-4 min-h-screen mr-4 rounded-2xl px-4  ">{children}</div>
-          </div>
-           
+            <NavContextProvider>
+            <HamburgerButton/>
+              <div className='flex '>
+                  <Nav/>
+                  <div className="bg-[#1E1E1E] flex-grow py-4 my-4 min-h-screen mr-4 rounded-2xl px-4  ">{children}</div>
+              </div>
+          </NavContextProvider>
           </ProtectedRoute>
         </AuthProvider>
         </body>

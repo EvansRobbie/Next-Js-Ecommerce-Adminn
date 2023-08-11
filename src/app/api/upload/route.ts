@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import mime from 'mime-types';
+import { isAdminRequest } from '../auth/[...nextauth]/route';
+import { connect } from '@/utils/moongose';
 
 const bucket = 'robbie-next-ecommerce';
 export const POST = async (req: Request) => {
+  await connect()
+  await isAdminRequest()
   const formData = await req.formData();
   const file = formData.get('files') as File | null;
 

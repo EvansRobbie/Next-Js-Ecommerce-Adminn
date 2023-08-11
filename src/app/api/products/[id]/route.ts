@@ -1,10 +1,12 @@
 import Product from "@/models/Products"
 import { connect } from "@/utils/moongose"
 import { NextResponse } from "next/server"
+import { isAdminRequest } from "../../auth/[...nextauth]/route"
 
 export const GET = async (req:Request, {params:{id}}:{params:{id:String}}) =>{
     // console.log(id)
     await connect()
+    await isAdminRequest()
     try {
         const product = await Product.findById(id)
         return NextResponse.json(product, {status:200})
@@ -16,6 +18,7 @@ export const GET = async (req:Request, {params:{id}}:{params:{id:String}}) =>{
 
 export const PUT =async (req:Request,{params:{id}}:{params:{id:String}} ) => {
     await connect()
+    await isAdminRequest()
     const {title, desc, price, image, category, propInfo:properties} =  await req.json()
         // console.log(id)
     try{
@@ -30,6 +33,7 @@ export const PUT =async (req:Request,{params:{id}}:{params:{id:String}} ) => {
 export const DELETE = async (request:Request, {params:{id}}:{params:{id:String}}) =>{
     try {
         await connect()
+        await isAdminRequest()
         // await Product.findByIdAndDelete(id)
         await Product.deleteOne({_id:id})
         return new NextResponse("Post Deleted", {status:200})

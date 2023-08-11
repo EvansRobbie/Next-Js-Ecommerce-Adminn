@@ -10,7 +10,7 @@ const Nav = () => {
   const inactive = "flex items-center gap-4 py-2 px-4";
   const active = `${inactive} bg-[#1E1E1E] w-full  rounded-l-xl`;
   return (
-    <aside className="flex flex-col p-4 pr-0 ">
+    <aside className="flex flex-col p-4 pr-0 fixed w-full h-full bg-slate-950 -left-full">
       <Link href={"/"} className="flex items-center gap-4 mr-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"

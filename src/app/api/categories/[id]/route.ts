@@ -1,6 +1,7 @@
 import Category from "@/models/Categories";
 import { connect } from "@/utils/moongose";
 import { NextResponse } from "next/server";
+import { isAdminRequest } from "../../auth/[...nextauth]/route";
 
 export const DELETE = async (
   req: Request,
@@ -8,6 +9,7 @@ export const DELETE = async (
 ) => {
   try {
     await connect();
+    await isAdminRequest()
     await Category.deleteOne({ _id: id });
     return new NextResponse("Category Deleted", { status: 200 });
   } catch (error) {
