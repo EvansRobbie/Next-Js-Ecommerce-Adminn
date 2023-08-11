@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import React, { FormEvent, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import useSWR from "swr";
-import { withSwal } from "react-sweetalert2";
+// import { withSwal } from "react-sweetalert2";
 
 interface categoryProp {
   _id: string;
@@ -311,4 +311,4 @@ const ProductCategory = ({ swal}:{swal:any}) =>{
     </div>
   );
 }
-export default withSwal(ProductCategory);
+export default ProductCategory;
