@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import React, { FormEvent, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import useSWR from "swr";
-// import { withSwal } from "react-sweetalert2";
+import { withSwal } from "react-sweetalert2";
 
 interface categoryProp {
   _id: string;
@@ -29,9 +29,7 @@ interface propertyProp {
   name: string;
   value: string;
 }
-
-
-const ProductCategory = ({ swal}:{swal:any}) =>{
+export default withSwal(({ swal }: any) => {
   const [category, setCategory] = useState<string>("");
   const [parentCategory, setParentCategory] = useState<string | null>(null);
   const [editCategory, setEditCategory] = useState<editProp | any>("");
@@ -310,5 +308,4 @@ const ProductCategory = ({ swal}:{swal:any}) =>{
       )}
     </div>
   );
-}
-export default ProductCategory;
+});
