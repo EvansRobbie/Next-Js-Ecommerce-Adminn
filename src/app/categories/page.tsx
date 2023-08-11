@@ -29,7 +29,9 @@ interface propertyProp {
   name: string;
   value: string;
 }
-export default withSwal(({ swal }: any, ref: any) => {
+
+
+const ProductCategory = ({ swal, ref}:{swal:any, ref:any}) =>{
   const [category, setCategory] = useState<string>("");
   const [parentCategory, setParentCategory] = useState<string | null>(null);
   const [editCategory, setEditCategory] = useState<editProp | any>("");
@@ -308,4 +310,5 @@ export default withSwal(({ swal }: any, ref: any) => {
       )}
     </div>
   );
-});
+}
+export default withSwal(ProductCategory);
