@@ -1,15 +1,23 @@
 "use client"
-import {useState, useContext, createContext, ReactNode} from 'react'
+import {useState, useContext, createContext, ReactNode, Dispatch, SetStateAction} from 'react'
 
-const navContext = createContext({})
+interface navProps {
+    nav:boolean
+    setNav:Dispatch<SetStateAction<boolean>>
+    toggleNav: ()=>void
+}
+const navContext = createContext({} as navProps)
 const NavContextProvider = ({children}:{children:ReactNode}) => {
     const [nav, setNav] = useState<boolean>(false)
     const toggleNav = ()=>{
         setNav(prev => !prev)
     }
   return (
-    <navContext.Provider value={{nav, toggleNav}}>{children}</navContext.Provider>
+    <navContext.Provider value={{nav, setNav, toggleNav}}>{children}</navContext.Provider>
   )
 }
+ export const useNavContext = () =>{
+    return useContext(navContext)
+ }
 
 export default NavContextProvider

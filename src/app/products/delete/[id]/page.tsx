@@ -5,7 +5,7 @@ import useSWR from 'swr'
 
 const fetcher = (...args:any) => fetch(args).then((res) => res.json())
 
-const deleten = ({params:{id}}:{params:{id:string}}) => {
+const DeleteProduct = ({params:{id}}:{params:{id:string}}) => {
     const router = useRouter()
     const {data} = useSWR(`/api/products/${id}`, fetcher)
     const handleDelete = async () =>{
@@ -29,4 +29,4 @@ const deleten = ({params:{id}}:{params:{id:string}}) => {
   )
 }
 
-export default deleten
+export default DeleteProduct

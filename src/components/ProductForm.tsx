@@ -118,11 +118,11 @@ const ProductForm: React.FC<ProductFormProps> = ({
   if (categories && categories.length > 0 && category){
     let catInfo = categories.find(({_id}:any) => _id === category )
     // console.log(catInfo)
-    propertiesToFill.push(...catInfo?.properties)
+    propertiesToFill?.push(...catInfo?.properties)
     while(catInfo?.parentCategory?._id){
       const parent = categories.find(({_id}:any) => _id === catInfo?.parentCategory?._id )
       // console.log(parent.properties)
-      propertiesToFill.push(...parent?.properties)
+      propertiesToFill?.push(...parent?.properties)
       // break;
       catInfo = parent
     }
@@ -162,8 +162,8 @@ const ProductForm: React.FC<ProductFormProps> = ({
                 ))}
             </select>
            {propertiesToFill.length > 0 && propertiesToFill.map((p, idx)=>(
-            <div className="flex gap-4" key={idx}>
-              <div>{p.name}</div>
+            <div className="flex flex-col" key={idx}>
+              <label className="capitalize">{p.name}</label>
               <select  value={propInfo[p.name]} onChange={(e)=>setProductProp(p.name, e.target.value)} className="text-slate-900 bg-slate-200 font-semibold">
                 {p.values.map((v:any) =>(
                   <option key={p.name} value={v}>{v}</option>

@@ -14,7 +14,7 @@ interface productProp{
   price:number
 }
 
-const products = () => {
+const Products = () => {
   const {data, error, isLoading} = useSWR('/api/products', fetcher)
 
   if (error){
@@ -39,7 +39,7 @@ const products = () => {
           </thead>
           <tbody>
             { data.map(({_id,  title}:productProp) =>(
-              <tr className='' >
+              <tr className='' key={_id} >
                 <td >{title}</td>
                 <td className=' items-center flex justify-end gap-4'>
                   <Link className='bg-orange-500 py-1 px-2.5 gap-1 inline-flex rounded-md' href={`products/edit/${_id}`}>
@@ -69,4 +69,4 @@ const products = () => {
   )
 }
 
-export default products
+export default Products

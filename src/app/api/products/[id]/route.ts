@@ -6,7 +6,7 @@ import { isAdminRequest } from "../../auth/[...nextauth]/route"
 export const GET = async (req:Request, {params:{id}}:{params:{id:String}}) =>{
     // console.log(id)
     await connect()
-    await isAdminRequest()
+    // await isAdminRequest()
     try {
         const product = await Product.findById(id)
         return NextResponse.json(product, {status:200})
@@ -16,12 +16,13 @@ export const GET = async (req:Request, {params:{id}}:{params:{id:String}}) =>{
     }
 }
 
-export const PUT =async (req:Request,{params:{id}}:{params:{id:String}} ) => {
-    await connect()
-    await isAdminRequest()
+export const PUT = async (req:Request,{params:{id}}:{params:{id:String}} ) => {
+    
     const {title, desc, price, image, category, propInfo:properties} =  await req.json()
         // console.log(id)
     try{
+        await connect()
+        await isAdminRequest()
         const product = await Product.updateOne({_id:id},{ title, desc, price, image, category, properties}) 
         return NextResponse.json(product, {status:200})
     }catch(e){
