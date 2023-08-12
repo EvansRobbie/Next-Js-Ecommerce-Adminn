@@ -3,10 +3,12 @@ import { fetcher } from "@/components/Fetcher";
 import Spinner from "@/components/Spinner";
 import axios from "axios";
 import { notFound } from "next/navigation";
-import React, { FormEvent, forwardRef, useRef, useImperativeHandle, useState, Ref } from "react";
+import React, { FormEvent, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import useSWR from "swr";
-import { withSwal } from "react-sweetalert2";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 
 interface categoryProp {
   _id: string;
@@ -29,11 +31,10 @@ interface propertyProp {
   name: string;
   value: string;
 }
-const Categories = (
-  { swal, ref }: { swal: any, ref: Ref<HTMLDivElement> | undefined },
-  
-) => {
-  // console.log(ref)
+
+const MySwal = withReactContent(Swal)
+function Categories(){
+  // const ref = useRef(null);
   const [category, setCategory] = useState<string>("");
   const [parentCategory, setParentCategory] = useState<string | null>(null);
   const [editCategory, setEditCategory] = useState<editProp | any>("");
@@ -60,7 +61,7 @@ const Categories = (
 
   const deleteCategory = (cat: categoryProp) => {
     const { _id: id } = cat;
-    swal
+    MySwal
       .fire({
         title: "Are You sure?",
         text: `Do you want to delete ${cat.category}?`,
@@ -144,7 +145,7 @@ const Categories = (
   };
   //   console.log(properties)
   return (
-    <div className=" max-w-3xl mx-auto" ref={ref}>
+    <div className=" max-w-3xl mx-auto">
       {isLoading ? (
         <div className="flex w-full justify-center h-[50vh] items-center">
           <Spinner />
@@ -313,12 +314,4 @@ const Categories = (
     </div>
   );
 };
-export default withSwal(({swal}:{swal:any}) => {
-  const categoriesRef = useRef<HTMLDivElement>(null);
-  // console.log(categoriesRef)
-  return (
-    //@ts-ignore
-    <Categories swal={swal} ref={categoriesRef} />
-
-  )
-});
+export default Categories
