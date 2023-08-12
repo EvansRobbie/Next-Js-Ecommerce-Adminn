@@ -3,7 +3,7 @@ import { fetcher } from "@/components/Fetcher";
 import Spinner from "@/components/Spinner";
 import axios from "axios";
 import { notFound } from "next/navigation";
-import React, { FormEvent, useRef, useState } from "react";
+import React, { FormEvent, forwardRef, useRef, useImperativeHandle, useState, Ref } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import useSWR from "swr";
 import { withSwal } from "react-sweetalert2";
@@ -29,10 +29,11 @@ interface propertyProp {
   name: string;
   value: string;
 }
-function Categories({ swal }: {
-  swal: any;
-}, {ref}: {ref:any}): (() => never) | React.JSX.Element {
-  console.log(ref)
+const Categories = (
+  { swal, ref }: { swal: any, ref: Ref<HTMLDivElement> | undefined },
+  
+) => {
+  // console.log(ref)
   const [category, setCategory] = useState<string>("");
   const [parentCategory, setParentCategory] = useState<string | null>(null);
   const [editCategory, setEditCategory] = useState<editProp | any>("");
@@ -312,11 +313,12 @@ function Categories({ swal }: {
     </div>
   );
 };
-export default withSwal(({swal}:{swal:any}, ref:any) => {
-  console.log(ref)
+export default withSwal(({swal}:{swal:any}) => {
+  const categoriesRef = useRef<HTMLDivElement>(null);
+  // console.log(categoriesRef)
   return (
     //@ts-ignore
-    <Categories swal={swal} ref={ref} />
+    <Categories swal={swal} ref={categoriesRef} />
 
   )
 });
