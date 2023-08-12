@@ -29,7 +29,9 @@ interface propertyProp {
   name: string;
   value: string;
 }
-export default withSwal(({ swal}: {swal:any}, ref:any) => {
+function Categories({ swal }: {
+  swal: any;
+}): (() => never) | React.JSX.Element {
   const [category, setCategory] = useState<string>("");
   const [parentCategory, setParentCategory] = useState<string | null>(null);
   const [editCategory, setEditCategory] = useState<editProp | any>("");
@@ -140,7 +142,7 @@ export default withSwal(({ swal}: {swal:any}, ref:any) => {
   };
   //   console.log(properties)
   return (
-    <div className=" max-w-3xl mx-auto" ref={ref}>
+    <div className=" max-w-3xl mx-auto">
       {isLoading ? (
         <div className="flex w-full justify-center h-[50vh] items-center">
           <Spinner />
@@ -308,4 +310,8 @@ export default withSwal(({ swal}: {swal:any}, ref:any) => {
       )}
     </div>
   );
-});
+};
+export default withSwal(({swal}:{swal:any}, ref:any) => (
+  //@ts-ignore
+  <Categories swal={swal} />
+));
