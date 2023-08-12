@@ -3,7 +3,7 @@ import { fetcher } from "@/components/Fetcher";
 import Spinner from "@/components/Spinner";
 import axios from "axios";
 import { notFound } from "next/navigation";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import useSWR from "swr";
 import { withSwal } from "react-sweetalert2";
@@ -32,6 +32,7 @@ interface propertyProp {
 function Categories({ swal }: {
   swal: any;
 }): (() => never) | React.JSX.Element {
+  const ref = useRef(null);
   const [category, setCategory] = useState<string>("");
   const [parentCategory, setParentCategory] = useState<string | null>(null);
   const [editCategory, setEditCategory] = useState<editProp | any>("");
@@ -142,7 +143,7 @@ function Categories({ swal }: {
   };
   //   console.log(properties)
   return (
-    <div className=" max-w-3xl mx-auto">
+    <div className=" max-w-3xl mx-auto" ref={ref}>
       {isLoading ? (
         <div className="flex w-full justify-center h-[50vh] items-center">
           <Spinner />
