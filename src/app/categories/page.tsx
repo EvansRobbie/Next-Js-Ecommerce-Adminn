@@ -31,8 +31,8 @@ interface propertyProp {
 }
 function Categories({ swal }: {
   swal: any;
-}): (() => never) | React.JSX.Element {
-  const ref = useRef(null);
+}, {ref}: {ref:any}): (() => never) | React.JSX.Element {
+  console.log(ref)
   const [category, setCategory] = useState<string>("");
   const [parentCategory, setParentCategory] = useState<string | null>(null);
   const [editCategory, setEditCategory] = useState<editProp | any>("");
@@ -312,7 +312,11 @@ function Categories({ swal }: {
     </div>
   );
 };
-export default withSwal(({swal}:{swal:any}, ref:any) => (
-  //@ts-ignore
-  <Categories swal={swal} />
-));
+export default withSwal(({swal}:{swal:any}, ref:any) => {
+  console.log(ref)
+  return (
+    //@ts-ignore
+    <Categories swal={swal} ref={ref} />
+
+  )
+});
