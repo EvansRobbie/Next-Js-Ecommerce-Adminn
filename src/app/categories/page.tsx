@@ -29,11 +29,9 @@ interface propertyProp {
   name: string;
   value: string;
 }
-interface ProductCategoryProps {
-  swal: any;
-}
-// @ts-ignore
-const ProductCategory: React.FC<ProductCategoryProps> = ({ swal }:{swal:any})  =>   {
+
+
+const ProductCategory = ({ swal }:{swal:any})  =>   {
   const [category, setCategory] = useState<string>("");
   const [parentCategory, setParentCategory] = useState<string | null>(null);
   const [editCategory, setEditCategory] = useState<editProp | any>("");
@@ -313,6 +311,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ swal }:{swal:any})  =
     </div>
   );
 };
-export default withSwal<ProductCategoryProps>(({ swal }:{swal:any}) => (
+export default withSwal(({ swal }:{swal:any}) => (
+  // @ts-ignore
   <ProductCategory swal={swal} />
 ));
