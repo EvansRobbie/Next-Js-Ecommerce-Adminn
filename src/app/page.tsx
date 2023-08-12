@@ -1,10 +1,13 @@
 "use client"
+import Spinner from "@/components/Spinner"
 import { useSession} from "next-auth/react"
 import Image from "next/image"
 export default function Home() {
   const { data:session, status, } = useSession()
-  if (status === 'loading'){
-    return <p>Loading</p>
+  if (status === "loading"){
+    return <div className="flex w-full justify-center h-[50vh] items-center">
+    <Spinner />
+  </div>
   }
   return (
     <main className=" flex justify-between">
