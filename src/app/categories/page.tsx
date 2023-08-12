@@ -29,9 +29,7 @@ interface propertyProp {
   name: string;
   value: string;
 }
-
-
-const ProductCategory = ({ swal }:{swal:any})  =>   {
+export default withSwal(({ swal, ref }: {swal:any, ref:any}) => {
   const [category, setCategory] = useState<string>("");
   const [parentCategory, setParentCategory] = useState<string | null>(null);
   const [editCategory, setEditCategory] = useState<editProp | any>("");
@@ -142,7 +140,7 @@ const ProductCategory = ({ swal }:{swal:any})  =>   {
   };
   //   console.log(properties)
   return (
-    <div className=" max-w-3xl mx-auto">
+    <div className=" max-w-3xl mx-auto" ref={ref}>
       {isLoading ? (
         <div className="flex w-full justify-center h-[50vh] items-center">
           <Spinner />
@@ -310,8 +308,4 @@ const ProductCategory = ({ swal }:{swal:any})  =>   {
       )}
     </div>
   );
-};
-export default withSwal(({ swal }:{swal:any}) => (
-  // @ts-ignore
-  <ProductCategory swal={swal} />
-));
+});
