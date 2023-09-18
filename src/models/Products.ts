@@ -7,7 +7,11 @@ const ProductSchema = new Schema({
     price:{type:String, required:true},
     image:{type:[String]},
     properties:{type:Object}
-})
+},
+{
+    timestamps:true,
+}
+)
 
 const Product = models.Product || model("Product", ProductSchema)
 
